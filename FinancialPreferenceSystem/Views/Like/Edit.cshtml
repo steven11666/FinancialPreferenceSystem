@@ -1,0 +1,33 @@
+﻿@model FinancialPreferenceSystem.Models.ViewModels.LikeListViewModel
+
+<div class="container mt-4">
+    <h2 class="mb-4">修改喜好商品</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="SN" />
+        <input type="hidden" asp-for="UserID" />
+
+        <div class="mb-3">
+            <label>產品</label>
+            <select asp-for="Nom" class="form-select">
+                @foreach (var p in ViewBag.Products)
+                {
+                    <option value="@p.Nom" selected="@(p.Nom == Model.Nom ? "selected" : "")">@p.ProductName</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>購買數量</label>
+            <input asp-for="OrderQty" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>扣款帳號</label>
+            <input asp-for="Account" class="form-control" readonly />
+        </div>
+
+        <button type="submit" class="btn btn-success">更新</button>
+        <a asp-action="Index" asp-route-userId="@Model.UserID" class="btn btn-secondary">返回列表</a>
+    </form>
+</div>

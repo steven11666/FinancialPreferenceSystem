@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "新增喜好商品";
+    var products = ViewBag.Products as IEnumerable<FinancialPreferenceSystem.Models.Product>;
+    string account = ViewBag.Account as string;
+    string userId = ViewBag.UserId as string;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">新增喜好金融商品</h2>
+
+    <!-- 功能按鈕 -->
+    <div class="mb-3">
+        <a asp-controller="Like" asp-action="Add" asp-route-userId="@userId" class="btn btn-primary me-2">新增喜好商品</a>
+        <a asp-controller="Like" asp-action="Index" asp-route-userId="@userId" class="btn btn-success">查詢清單</a>
+    </div>
+
+    <form method="post" asp-controller="Like" asp-action="Add">
+        <!-- 隱藏使用者ID -->
+        <input type="hidden" name="userId" value="@userId" />
+
+        <div class="mb-3">
+            <label class="form-label">選擇產品</label>
+            <select name="productId" class="form-select" required>
+                <option value="">-- 請選擇產品 --</option>
+                @foreach (var p in products)
+                {
+                    <option value="@p.Nom">@p.ProductName (@p.Price 元, 手續費 @p.FeeRate*100 %)</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">購買數量</label>
+            <input type="number" name="qty" class="form-control" min="1" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">扣款帳號</label>
+            <input type="text" class="form-control" value="@account" readonly />
+        </div>
+
+        <button type="submit" class="btn btn-primary">新增</button>
+        <a asp-controller="Like" asp-action="Index" asp-route-userId="@userId" class="btn btn-secondary ms-2">
+            返回查詢清單
+        </a>
+    </form>
+</div>
